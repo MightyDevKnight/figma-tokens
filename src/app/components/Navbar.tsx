@@ -1,5 +1,6 @@
-import React, { useMemo, useCallback } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
+import convertTokensToObject from '@/utils/convertTokensToObject';
 import Icon from './Icon';
 import Tooltip from './Tooltip';
 import useRemoteTokens from '../store/remoteTokens';
@@ -10,7 +11,6 @@ import {
   lastSyncedStateSelector,
   projectURLSelector,
   storageTypeSelector,
-  themesListSelector,
   tokensSelector,
   usedTokenSetSelector,
 } from '@/selectors';
@@ -25,8 +25,6 @@ const transformProviderName = (provider: StorageProviderType) => {
       return 'JSONBin.io';
     case StorageProviderType.GITHUB:
       return 'GitHub';
-    case StorageProviderType.GITLAB:
-      return 'GitLab';
     case StorageProviderType.URL:
       return 'URL';
     default:
@@ -38,22 +36,17 @@ export const Navbar: React.FC = () => {
   const projectURL = useSelector(projectURLSelector);
   const storageType = useSelector(storageTypeSelector);
   const tokens = useSelector(tokensSelector);
-  const themes = useSelector(themesListSelector);
   const editProhibited = useSelector(editProhibitedSelector);
   const lastSyncedState = useSelector(lastSyncedStateSelector);
   const usedTokenSet = useSelector(usedTokenSetSelector);
   const { pullTokens, pushTokens } = useRemoteTokens();
 
-  const hasChanges = useMemo(() => (
-    lastSyncedState !== JSON.stringify([tokens, themes], null, 2)
-  ), [lastSyncedState, tokens, themes]);
-  const handlePushClick = useCallback(() => {
-    pushTokens();
-  }, [pushTokens]);
-
-  const handlePullTokens = useCallback(() => {
-    pullTokens({ usedTokenSet });
-  }, [pullTokens, usedTokenSet]);
+  const checkForChanges = React.useCallback(() => {
+    if (lastSyncedState !== JSON.stringify(convertTokensToObject(tokens), null, 2)) {
+      return true;
+    }
+    return false;
+  }, [lastSyncedState, tokens]);
 
   return (
     <Box
@@ -73,6 +66,7 @@ export const Navbar: React.FC = () => {
         <div>
           <TabButton name={Tabs.TOKENS} label="Tokens" />
           <TabButton name={Tabs.INSPECTOR} label="Inspect" />
+          <TabButton name={Tabs.SYNCSETTINGS} label="Sync" />
           <TabButton name={Tabs.SETTINGS} label="Settings" />
         </div>
         <NavbarUndoButton />
@@ -81,29 +75,29 @@ export const Navbar: React.FC = () => {
         {storageType.provider !== StorageProviderType.LOCAL && (
           <>
             {storageType.provider === StorageProviderType.JSONBIN && (
-              <Tooltip label={`Go to ${transformProviderName(storageType.provider)}`}>
+              <Tooltip variant="right" label={`Go to ${transformProviderName(storageType.provider)}`}>
                 <a href={projectURL} target="_blank" rel="noreferrer" className="block button button-ghost">
                   <Icon name="library" />
                 </a>
               </Tooltip>
             )}
-            {(storageType.provider === StorageProviderType.GITHUB
-              || storageType.provider === StorageProviderType.GITLAB) && (
-              <Tooltip label={`Push to ${transformProviderName(storageType.provider)}`}>
+            {storageType.provider === StorageProviderType.GITHUB && (
+              <Tooltip variant="right" label={`Push to ${transformProviderName(storageType.provider)}`}>
                 <button
-                  onClick={handlePushClick}
+                  onClick={() => pushTokens()}
                   type="button"
                   className="relative button button-ghost"
                   disabled={editProhibited}
                 >
-                  {hasChanges && <div className="absolute top-0 right-0 w-2 h-2 rounded-full bg-primary-500" />}
+                  {checkForChanges() && <div className="absolute top-0 right-0 w-2 h-2 rounded-full bg-primary-500" />}
+
                   <Icon name="library" />
                 </button>
               </Tooltip>
             )}
 
-            <Tooltip label={`Pull from ${transformProviderName(storageType.provider)}`}>
-              <button onClick={handlePullTokens} type="button" className="button button-ghost">
+            <Tooltip variant="right" label={`Pull from ${transformProviderName(storageType.provider)}`}>
+              <button onClick={() => pullTokens({ usedTokenSet })} type="button" className="button button-ghost">
                 <Icon name="refresh" />
               </button>
             </Tooltip>

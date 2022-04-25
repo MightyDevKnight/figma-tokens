@@ -1,4 +1,4 @@
-import { ThemeObjectsList } from '../ThemeObjectsList';
+import { ThemeObjectsMap } from '../ThemeObjectsMap';
 import { UsedTokenSetsMap } from '../UsedTokenSetsMap';
 import { AnyTokenList } from './AnyTokenList';
 
@@ -9,5 +9,5 @@ export type TokenStore = {
   values: Record<string, AnyTokenList>;
   usedTokenSet?: UsedTokenSetsMap | null;
   activeTheme: string | null;
-  themes: ThemeObjectsList;
+  themes: ThemeObjectsMap;
 };

@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import React from 'react';
 import { CheckIcon } from '@radix-ui/react-icons';
+import isEqual from 'lodash.isequal';
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -15,7 +16,6 @@ import { UpdateMode } from '@/types/state';
 import { Dispatch } from '../store';
 import IconChevronDown from './icons/IconChevronDown';
 import { settingsStateSelector } from '@/selectors';
-import { isEqual } from '@/utils/isEqual';
 
 export default function ApplySelector() {
   const {

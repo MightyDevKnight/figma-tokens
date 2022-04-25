@@ -4,7 +4,7 @@ import Button from '../Button';
 import Input from '../Input';
 import Stack from '../Stack';
 
-export default function GitForm({
+export default function GitHubForm({
   handleChange, handleSubmit, handleCancel, values, hasErrored,
 }) {
   const inputEl = useRef(null);

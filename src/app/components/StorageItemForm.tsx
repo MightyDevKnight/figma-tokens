@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { StorageProviderType } from '@/types/api';
-import GitForm from './StorageItemForm/GitForm';
+import GitHubForm from './StorageItemForm/GitHubForm';
 import JSONBinForm from './StorageItemForm/JSONBinForm';
 import URLForm from './StorageItemForm/URLForm';
 import { localApiStateSelector } from '@/selectors';
@@ -14,10 +14,9 @@ export default function StorageItemForm({
   const localApiState = useSelector(localApiStateSelector);
 
   switch (localApiState.provider) {
-    case StorageProviderType.GITHUB:
-    case StorageProviderType.GITLAB: {
+    case StorageProviderType.GITHUB: {
       return (
-        <GitForm
+        <GitHubForm
           handleChange={handleChange}
           handleSubmit={handleSubmit}
           handleCancel={handleCancel}

@@ -19,7 +19,7 @@ function StartScreen() {
     dispatch.tokenState.setEmptyTokens();
   };
   const onSetSyncClick = () => {
-    dispatch.uiState.setActiveTab('settings');
+    dispatch.uiState.setActiveTab('syncsettings');
     dispatch.tokenState.setEmptyTokens();
     dispatch.uiState.setLocalApiState({
       ...storageType,

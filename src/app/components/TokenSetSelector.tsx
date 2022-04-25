@@ -111,7 +111,7 @@ export default function TokenSetSelector() {
           <TokenSetTree
             tokenSets={allTokenSets}
             onRename={handleRenameTokenSet}
-            onDelete={(set) => handleDeleteTokenSet(set)}
+            onDelete={handleDeleteTokenSet}
           />
         </Box>
       ) : (
@@ -119,7 +119,7 @@ export default function TokenSetSelector() {
           onReorder={(values: string[]) => handleReorder(values)}
           tokenSets={allTokenSets}
           onRename={handleRenameTokenSet}
-          onDelete={handleDeleteTokenSet}
+          onDelete={(set) => handleDeleteTokenSet(set)}
         />
       )}
       <Modal isOpen={showRenameTokenSetFields} close={() => setShowRenameTokenSetFields(false)}>

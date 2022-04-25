@@ -1,11 +1,11 @@
 import type { ContextObject } from './api';
-import { ThemeObjectsList } from './ThemeObjectsList';
+import { ThemeObjectsMap } from './ThemeObjectsMap';
 import type { SingleToken } from './tokens';
 
 export type UpdateRemoteFunctionPayload = {
   tokens: Record<string, SingleToken[]>
-  themes: ThemeObjectsList
-  context: Partial<ContextObject>
+  themes: ThemeObjectsMap
+  context: ContextObject
   updatedAt?: string
   oldUpdatedAt?: string | null
 };

@@ -3,5 +3,6 @@ export enum Tabs {
   TOKENS = 'tokens',
   JSON = 'json',
   INSPECTOR = 'inspector',
+  SYNCSETTINGS = 'syncsettings',
   SETTINGS = 'settings',
 }

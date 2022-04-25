@@ -5,13 +5,13 @@ import { notifyToUI, postToFigma } from '../../plugin/notifiers';
 import { updateJSONBinTokens } from './providers/jsonbin';
 import { track } from '@/utils/analytics';
 import type { AnyTokenSet, SingleToken } from '@/types/tokens';
-import type { ThemeObjectsList, UsedTokenSetsMap } from '@/types';
+import type { ThemeObjectsMap, UsedTokenSetsMap } from '@/types';
 import type { SettingsState } from './models/settings';
 
 type UpdateRemoteTokensPayload = {
   provider: StorageProviderType;
   tokens: Record<string, SingleToken[]>;
-  themes: ThemeObjectsList
+  themes: ThemeObjectsMap
   context: ContextObject;
   updatedAt: string;
   oldUpdatedAt?: string;
@@ -21,7 +21,7 @@ type UpdateTokensOnSourcesPayload = {
   tokens: Record<string, SingleToken[]>;
   tokenValues: AnyTokenSet;
   usedTokenSet: UsedTokenSetsMap;
-  themes: ThemeObjectsList;
+  themes: ThemeObjectsMap;
   activeTheme: string | null;
   settings: SettingsState;
   updatedAt: string;
@@ -58,9 +58,6 @@ async function updateRemoteTokens({
     }
 
     case StorageProviderType.GITHUB: {
-      break;
-    }
-    case StorageProviderType.GITLAB: {
       break;
     }
     default:

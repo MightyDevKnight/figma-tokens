@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import isEqual from 'lodash.isequal';
 import { Dispatch } from '../store';
 import useTokens from '../store/useTokens';
 import Button from './Button';
@@ -10,7 +11,6 @@ import Blankslate from './Blankslate';
 import InspectorTokenGroup from './InspectorTokenGroup';
 import { SingleToken } from '@/types/tokens';
 import { inspectStateSelector, uiStateSelector } from '@/selectors';
-import { isEqual } from '@/utils/isEqual';
 
 export default function InspectorMultiView({ resolvedTokens }: { resolvedTokens: SingleToken[] }) {
   const inspectState = useSelector(inspectStateSelector, isEqual);
